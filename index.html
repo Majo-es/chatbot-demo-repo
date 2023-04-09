@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chatbot Prototype Demo!</title>
+
+    <!-- this is for mobile screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/favicon.png" />
+
+    <!-- this is for our css files - we have to link our html file to the css files -->
+    <link rel="stylesheet" media="all" href="../component/styles/setup.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/says.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/reply.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/typing.css" />
+    <link rel="stylesheet" media="all" href="../component/styles/input.css" />
+    <link  href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700&display=swap" rel="stylesheet"/>
+
+    <!-- css stylesheet for the background of the web page (no need to worry about this) -->
+    <!-- background: #fff8dc -->
+    <style>
+      body {
+        background-image: url("https://cdn.glitch.global/cb03635c-f598-4d1f-a2be-792f725675ec/2.jpg?v=1680575167250");
+       
+      }
+      .bubble-container {
+        height: 100vh;
+      }
+      .bubble-container .input-wrap textarea {
+        margin: 0;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <!-- header for the chatbot  -->
+    <div id="chat">
+      <div class="header">
+        <img
+          src="https://cdn.glitch.global/cb03635c-f598-4d1f-a2be-792f725675ec/1.jpg?v=1680575149775"
+          width="50px;"
+          
+        />
+        <div>
+          <h1>Loom and Weave Chatbot</h1>
+          <p>
+            Helping you pick the right fabric for your next project. This
+            chatbot will also teach you about textile certifications and
+            standards.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- This is to power the chatbot, you do not need to worry about this area -->
+    <script src="../component/js/Bubbles.js"></script>
+    <script>
+    var chatWindow = new Bubbles(document.getElementById("chat"), "chatWindow", {
+  inputCallbackFn: function(o) {
+
+    // this is for the bot - don't worry
+    var match = function(key) {
+      setTimeout(function() {
+        chatWindow.talk(convo, key) // restart current convo from point found in the answer
+      }, 600)
+    }
+                            
+ // sanitize text for search function - for the bot
+    var strip = function (text) {
+         return text.toLowerCase().replace(/[\s.,\/#!$%\^&\*;:{}=\-_'"`~()]/g, "");
+    }
+                            
+   
+    // search function -  for the bot
+    var found = false
+    o.convo[o.standingAnswer].reply.forEach(function(e, i) {
+      strip(e.human_response).includes(strip(o.input)) && o.input.length > 0
+        ? (found = e.bot_answer)
+        : found ? null : (found = false)
+    })
+    found ? match(found) : miss()
+  }
+}) // section for setting up bot is finished.
+
+    
+    
+    // This is where your conversation is going to happen! Only focus here!
+    var convo = {
+
+  // first section
+
+    intro: {
+      bot_says: ["<img src = https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNjI3NGIzMjFhOGFjNTU2ZWI2MjUwZGVlM2UxY2VkMDQzMmI3ZDM2ZiZjdD1n/WEjuiddReNt7PrYC7G/giphy.gif >", 
+                 "👋, there! Welcome to the <strong>Loom & Weave chatbot</strong>!", "I’m Jacques, and I’m here to help you find the perfect fabric for your next project. I will also teach you about textile certifications & standards.", "Are you ready?"],
+  
+      human_reply: [
+        {
+          human_response: "Yes",
+          bot_answer: "YAY!"
+        },
+        {
+          human_response: "No",
+          bot_answer: "👌, 👋✌️!"
+        }
+
+      ]
+  },
+    
+      
+//second section
+    "YAY!": {
+      bot_says: ["Ok, let’s start! 🏁 What are you looking for?"],
+      human_reply: [
+        {
+          human_response: "🌿 Natural fabrics",
+          bot_answer: "🌿"
+
+        },
+        {
+          human_response: "🧶 Natural animal fabrics",
+          bot_answer: "🧶"
+        },
+
+        {
+          human_response: "🌱 Sustainable semi-synthetic fabrics",
+          bot_answer: "🌱"
+        },
+        {
+          human_response: "♻️ Recycled synthetic fabrics",
+          bot_answer: "♻️"
+        }
+
+      ]
+    },
+      
+  "👌, 👋✌️!": {
+          bot_says: [
+            "Let’s chat again soon! 😊 sewing 🧵!",
+            "<img src =  https://media.giphy.com/media/W2D12hFHFr1ZuDJlzG/giphy.gif>"
+          ],
+          human_reply: [
+            {
+              human_response: "Bye!"
+            }
+          ]
+        },
+      
+//Third section
+      "🌿": {
+      bot_says: ["Here are some options for natural fabrics (vegan):",
+                 "Organic cotton (works for both clothes and accessories)",
+                  "Recycled Cotton (works for both clothes and accessories)",
+                  "Hemp (works for both clothes and accessories)",
+                  "Linen (works for both clothes and accessories)",
+                  "Cork (works for  accessories)",
+                  "Jute (works for  accessories)",
+                  "Pick 1️⃣", 
+                "<img src = https://media.giphy.com/media/g64UPbSmTYtYQ/giphy.gif>"],
+
+      human_reply: [
+      {
+          human_response: "Organic cotton",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "Recycled Cotton",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "Hemp",
+          bot_answer: "🤩 Great choice!"
+      },
+
+      {
+         human_response: "Linen",
+         bot_answer: "🤩 Great choice!"
+      },
+
+      {
+        human_response: "Cork",
+        bot_answer: "🤩 Great choice!"
+      },
+
+      {
+        human_response: "Jute",
+        bot_answer: "🤩 Great choice!"
+      }
+
+      ]
+    },
+
+     
+      
+//Fourth section
+     "🧶": {
+     bot_says: ["Here are some options for natural animal fabrics (mostly non-vegan):",
+                "Yak wool (works for both clothes and  accessories)",
+                "🐑 Sheep wool (works for both clothes and accessories)",
+                "Merino wool (works for both clothes and accessories)",
+                "🦙 Alpaca wool (works for both clothes and accessories)",
+                "🍌Banana wool (works for both clothes and accessories)",
+                "Cashmere (works for both clothes and accessories)",
+                "☮️ Peace silk (works for both clothes and accessories)",
+                "Pick 1️⃣",
+               "<img src = https://media.giphy.com/media/9xccJgllsnE8Io61tR/giphy.gif>"],
+      human_reply: [
+      {
+          human_response: "Yak wool",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "🐑 Sheep wool",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "Merino wool",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "🦙 Alpaca wool",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "🍌Banana wool",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "Cashmere",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "☮️ Peace silk",
+          bot_answer: "🤩 Great choice!"
+      }
+    ]
+  },
+
+  
+    //5th section
+      "🌱": {
+      bot_says: ["Here are some options for sustainable semi-synthetic fabrics (vegan):",
+                 "Tencel/Lyocell (works for both clothes and accessories): A variety of rayon made from cellulose strands obtained from tree 🌳 pulp. Can also, be made from bamboo 🎋.",
+                 "Modal (works for both clothes and accessories): A textile that is semisynthetic and is produced primarily from beech  🌳 tree pulp.",
+                 "Piñatex (works for both clothes and accessories): 🍍 leather.",
+                 "Desserto (works for both clothes and accessories): 🌵 leather.",
+                 "MycoTEX (works for both clothes and accessories): Mycelium 🍄 leather.",
+                 "Vegea (works for both clothes and accessories): 🍷 leather.",
+                 "Fruitleather (works for both clothes and accessories):  🍒🥭 leather.",
+                 "Apple leather (works for both clothes and accessories):  🍎🍏 leather.",
+                 "Tree leather (works for both clothes and accessories): 🌳 leather.",
+                 "Bio-Tex™  (works for both clothes and accessories): 🌱 plant-based protein leather.",
+                 "Pick 1️⃣", 
+                "<img src = https://media.giphy.com/media/3og0IEGFzmDtqp6bsI/giphy-downsized.gif>"],
+
+      human_reply: [
+      {
+         human_response: "Tencel/Lyocell",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "Modal",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🍍 Piñatex",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🌵 Desserto",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🍄 MycoTEX",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🍷 Vegea",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🍒🥭 Fruitleather",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🍎🍏 Apple leather",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🌳 Tree leather",
+         bot_answer: "🤩 Great choice!"
+      },
+      {
+         human_response: "🌱 Bio-Tex™",
+         bot_answer: "🤩 Great choice!"
+      }
+    ]
+  },
+ 
+  
+ //6th section
+
+       "♻️": {
+       bot_says: ["Here are some options for recycled synthetic fabrics (vegan):",
+                  "Reclaimed (works for both clothes and accessories)",
+                  "Vintage (works for both clothes and accessories)",
+                  "Pick 1️⃣", 
+                 "<img src = https://media.giphy.com/media/luZ3A7gmwszo99iYHa/giphy.gif>"],
+
+      human_reply: [
+      {
+          human_response: "Reclaimed",
+          bot_answer: "🤩 Great choice!"
+      },
+      {
+          human_response: "Vintage",
+          bot_answer: "🤩 Great choice!"
+      }
+    ]
+},       
+
+ "🤩 Great choice!": {
+      bot_says: ["🤩 Great choice!", "<img src = https://media.giphy.com/media/BgYWx7DZWbvRB5tqXs/giphy.gif>",
+                 "Is that all?"],
+
+      human_reply: [
+      {
+          human_response: "Yes",
+          bot_answer: "👌, let’s chat again soon! 😊 sewing 🧵!"
+      },
+      {
+          human_response: "No",
+          bot_answer: "Do you want to know about textile certifications and standards?"
+       }
+    ]
+},
+
+"👌, let’s chat again soon! 😊 sewing 🧵!": {
+          bot_says: [
+            "👌, let’s chat again soon! 😊 sewing 🧵!",
+            "<img src =  https://media.giphy.com/media/W2D12hFHFr1ZuDJlzG/giphy.gif>"
+          ],
+          human_reply: [
+            {
+              human_response: "Bye!"
+            }
+          ]
+        },      
+      
+"Do you want to know about textile certifications and standards?": {
+      bot_says:["Do you want to know about textile certifications and standards?", "👍 or 👎?"],
+
+      human_reply: [ 
+      {
+         human_response: "👍",
+         bot_answer: "Ok, cool 😎! Here they are: Organic standards: GOTS, OCS, GREEN SEAL, RWS, and ISO. , Fair conditions certifications: RDS, FLOCERT, FWF, SA8000, and SFA., Chemical control: ZDHC,OEKO-TEX, BLUESIGN, RESPONSIBLE CARE, and REACH., Overall standards: CRADLE TO CRADLE, FAIR TRADE, RCS, and LEED., Want to know what they mean?"
+      },
+      {
+        human_response: "👎",
+        bot_answer: "👌👌, let’s chat again soon! 😊 sewing 🧵!"
+      }
+    
+     ]
+  },   
+      
+"👌👌, let’s chat again soon! 😊 sewing 🧵!": {
+          bot_says: [
+            "👌, let’s chat again soon! 😊 sewing 🧵!", 
+            "<img src = https://media.giphy.com/media/W2D12hFHFr1ZuDJlzG/giphy.gif>"
+          ],
+          human_reply: [
+            {
+              human_response: "Bye!"
+            }
+          ]
+        },      
+      
+"Ok, cool 😎! Here they are: Organic standards: GOTS, OCS, GREEN SEAL, RWS, and ISO. , Fair conditions certifications: RDS, FLOCERT, FWF, SA8000, and SFA., Chemical control: ZDHC,OEKO-TEX, BLUESIGN, RESPONSIBLE CARE, and REACH., Overall standards: CRADLE TO CRADLE, FAIR TRADE, RCS, and LEED., Want to know what they mean?":{
+   bot_says:["Ok, cool 😎! Here they are:", 
+             "<strong>Organic standards</strong>: GOTS, OCS, GREEN SEAL, RWS, and ISO.", 
+             "<strong>Fair conditions certifications</strong>: RDS, FLOCERT, FWF, SA8000, and SFA.", 
+             "<strong>Chemical control</strong>: ZDHC,OEKO-TEX, BLUESIGN, RESPONSIBLE CARE, and REACH.", 
+             "<strong>Overall standards</strong>: CRADLE TO CRADLE, FAIR TRADE, RCS, and LEED.", 
+             "Pick 1️⃣"],
+  
+   human_reply: [
+    {
+
+        human_response: "Organic standards",  
+        bot_answer: "1️⃣"
+    
+      },
+     {
+        
+	  	human_response: "Fair conditions certifications ",
+		  bot_answer: "2️⃣"
+        
+      },
+     {
+        
+		  human_response: "Chemical control",
+		  bot_answer:	"3️⃣"
+       },
+	    {
+        
+		  human_response: "Overall standards",
+		  bot_answer:	"4️⃣"
+      }
+
+     ]
+    },         
+ 
+//End section 
+      
+"1️⃣" : {
+
+  bot_says: ["<u>Global Organic Textile Standard (GOTS)</u>:It assures that production is eco-friendly and forbids the use of potentially harmful substances.", 
+             "<u>Organic Content Standard (OCS)</u>: Throughout the processing step, it enables the use of organic material.", 
+             "<u>Green Seal</u>: It includes strict guidelines for product efficiency, sustainability, and health.", 
+             "<u>Responsible Wool Standard (RWS)</u>: Gives producers the chance to create wool that is of the highest caliber and adheres to international standards.",
+             "<u>International Organization for Standardization (ISO) 9001</u>: Guarantees reliability and high-quality goods and services."],
+    
+      human_reply: [
+    {
+        human_response: "🧐",
+        bot_answer: "Bye"  
+      
+      }
+       
+ ]
+},        
+      
+"2️⃣": {
+  
+bot_says: ["<u>Responsible Down Standard (RDS)</u>: Guarantees animal welfare in products made with down and feathers.", 
+           "<u>FLOCERT</u>: It enables businesses to adhere to ethical practices in the supply-chain.", 
+           "<u>Fair Wear Foundation (FWF)</u>: Works to improve workplace circumstances by promoting safer working conditions that lower the possibility of accidents and provide long-lasting improvement.", 
+           "<u>SA8000</u>: It is a system of norms and accreditation that guarantees a just and decent working environment for employees while upholding the greatest social standards.", 
+           "<u>Sustainable Fibre Alliance (SFA)</u>: Focuses on the security and wellbeing of goats as well as the herders, while addressing the sustainability issues associated with cashmere production." ],
+
+     human_reply: [
+    {
+        human_response: "🧐",
+        bot_answer: "Bye"  
+      
+      }
+       
+ ]
+},   
+      
+"3️⃣":{
+  
+bot_says: ["<u>Zero Discharge of Hazardous Chemicals (ZDHC)</u>: Prior to being released anywhere, it attempts to treat toxic substances to ensure safer health conditions.",
+           "<u>ECO PASSPORT by OEKO-TEX</u>: It examines the additives, dyes, and chemicals used in the production of textiles.", 
+           "<u>OEKO-TEX STANDARD 100</u>: Every component has undergone testing for dangerous substances, so the item is safe for those who use it.", 
+           "<u>BLUESIGN</u>: It results in an ideal manufacturing process and guarantees that the finished textile product complies with the most stringent consumer safety standards in the world.", 
+           "<u>RESPONSIBLE CARE</u>: In order to prevent damage to people, the aim is to improve environmental, health, safety, and security knowledge.", 
+           "<u>Registration, Evaluation, Authorization, and Restriction of Chemicals (REACH)</u>: By more accurately and quickly identifying the natural properties of chemical substances, it seeks to enhance the protection of human health and the ecosystem."],
+
+   human_reply: [
+    {
+        human_response: "🧐",
+        bot_answer: "Bye"  
+      
+      }
+       
+ ]
+},          
+   
+"4️⃣": {
+
+   bot_says: ["<u>CRADLE TO CRADLE</u>: An effective way to show off eco-conscious product design efforts.",
+              "<u>FAIR TRADE</u>: It guarantees a fair and secure labour environment for everyone in the supply chain.",
+              "<u>Recycled Claim Standard (RCS 100)</u>: Used as a chain of custody benchmark to follow recycled raw materials through the supply chain.", 
+              "<u>Leadership in Energy and Environmental Design (LEED)</u>: It produces structures that are economical, green, and energy-efficient."],
+
+  human_reply: [
+    {
+        human_response: "🧐",
+        bot_answer: "Bye"  
+      
+      }
+       
+ ]
+},  
+
+"Bye" : {
+  bot_says: ["I hope you enjoyed learning about different fabrics. As well as the different textile certifications and standards. Let’s chat again soon! 😊 sewing 🧵!", 
+            "<img src = https://media.giphy.com/media/W2D12hFHFr1ZuDJlzG/giphy.gif>"],
+    
+      human_reply: [
+    {
+        human_response: "Bye!",
+        
+      
+      }
+       
+ ]
+},      
+      
+      
+  //make sure you always keep this as this closes line 76!!!!!!
+}
+ //make sure you always keep this as this closes line 76!!!!!!
+
+//Do not worry about this!
+chatWindow.talk(convo)
+</script>
+</body>
+</html>
+           
+ 
+ 
+          
+   
+ 
