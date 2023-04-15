@@ -1,7 +1,7 @@
 # chatbot-demo-repo
 The code for the Loom &amp; Weave chatbot. 
 
-# Loom & Weave-Chatbot-Prototype
+# [Loom & Weave-Chatbot-Prototype](https://loom-and-weave-chatbot.glitch.me)
 
 🤖 This chatbot was created for the capstone project in the [Design a Feminist Chatbot course](https://www.futurelearn.com/courses/designing-a-feminist-chatbot) by [UAL Creative Computing Institute](https://www.arts.ac.uk/creative-computing-institute).
 
